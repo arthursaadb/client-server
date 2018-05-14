@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package proto;
+
+service CreateRequest {
+    // Sends a greeting
+    rpc Solicitation (SolicitationRequest) returns (SolicitationReply) {}
+}
+
+// The request message containing the user's name.
+message SolicitationRequest {
+    string crud = 1;
+    int32 chave = 2;
+    string mensagem = 3;
+}
+
+// The response message containing the greetings
+message SolicitationReply {
+    string message = 1;
+}
