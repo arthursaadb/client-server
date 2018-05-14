@@ -38,7 +38,7 @@ public final class Protocol {
       "ensagem\030\003 \001(\t\"$\n\021SolicitationReply\022\017\n\007me" +
       "ssage\030\001 \001(\t2W\n\rCreateRequest\022F\n\014Solicita" +
       "tion\022\032.proto.SolicitationRequest\032\030.proto" +
-      ".SolicitationReply\"\000B\002P\001b\006proto3"
+      ".SolicitationReply0\001B\002P\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

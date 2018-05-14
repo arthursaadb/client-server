@@ -29,6 +29,8 @@ import proto.SolicitationRequest;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -79,11 +81,13 @@ public class serverTest {
         final serverTest server = new serverTest();
         server.start();
         server.blockUntilShutdown();
+        List<String> respostas = new ArrayList<String>();
     }
 
     static class grpcProcess extends CreateRequestGrpc.CreateRequestImplBase {
         DatagramSocket socketGrpc = null;
         DadosResposta respost = null;
+
 
         @Override
         public void solicitation(SolicitationRequest request, StreamObserver<SolicitationReply> responseObserver) {
@@ -137,6 +141,7 @@ public class serverTest {
                 }
             }
 
+
             while (true) {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 try {
@@ -159,12 +164,12 @@ public class serverTest {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (respost.getMensagem() != null) {
-                    proto.SolicitationReply reply = proto.SolicitationReply.newBuilder().setMessage(respost.getMensagem()).build();
-                    responseObserver.onNext(reply);
-                    responseObserver.onCompleted();
-                }
+
+                proto.SolicitationReply reply = proto.SolicitationReply.newBuilder().setMessage(respost.getMensagem()).build();
+                responseObserver.onNext(reply);
+                //responseObserver.onCompleted();
             }
-        }
+
         }
     }
+}

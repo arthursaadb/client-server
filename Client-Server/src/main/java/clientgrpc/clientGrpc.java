@@ -19,6 +19,7 @@ package clientgrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import io.grpc.stub.StreamObserver;
 import proto.SolicitationReply;
 import proto.SolicitationRequest;
 
@@ -32,7 +33,7 @@ public class clientGrpc {
     private static final Logger logger = Logger.getLogger(clientGrpc.class.getName());
 
     private final ManagedChannel channel;
-    private final proto.CreateRequestGrpc.CreateRequestBlockingStub blockingStub;
+    private final proto.CreateRequestGrpc.CreateRequestStub stub;
 
     /**
      * Construct client connecting to HelloWorld server at {@code host:port}.
@@ -50,7 +51,7 @@ public class clientGrpc {
      */
     clientGrpc(ManagedChannel channel) {
         this.channel = channel;
-        blockingStub = proto.CreateRequestGrpc.newBlockingStub(channel);
+        stub = proto.CreateRequestGrpc.newStub(channel);
     }
 
     public void shutdown() throws InterruptedException {
@@ -63,13 +64,28 @@ public class clientGrpc {
     public void createRequest(String crud, BigInteger key, String message) {
         Integer chave = new Integer(key.intValue());
         SolicitationRequest request = proto.SolicitationRequest.newBuilder().setCrud(crud).setChave(chave).setMensagem(message).build();
-        SolicitationReply response;
+        StreamObserver<SolicitationReply> response = new StreamObserver<SolicitationReply>(){
+            @Override
+            public void onNext(SolicitationReply value) {
+                System.out.println(value.getMessage());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        };
         try {
-            response = blockingStub.solicitation(request);
+                stub.solicitation(request, response);
         } catch (StatusRuntimeException e) {
             return;
         }
-        logger.info(response.getMessage());
+        //logger.info(response.getMessage());
     }
 
     /**

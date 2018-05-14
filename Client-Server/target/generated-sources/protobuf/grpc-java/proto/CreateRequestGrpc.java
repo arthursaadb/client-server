@@ -49,7 +49,7 @@ public final class CreateRequestGrpc {
         if ((getSolicitationMethod = CreateRequestGrpc.getSolicitationMethod) == null) {
           CreateRequestGrpc.getSolicitationMethod = getSolicitationMethod = 
               io.grpc.MethodDescriptor.<proto.SolicitationRequest, proto.SolicitationReply>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
               .setFullMethodName(generateFullMethodName(
                   "proto.CreateRequest", "Solicitation"))
               .setSampledToLocalTracing(true)
@@ -106,7 +106,7 @@ public final class CreateRequestGrpc {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
             getSolicitationMethodHelper(),
-            asyncUnaryCall(
+            asyncServerStreamingCall(
               new MethodHandlers<
                 proto.SolicitationRequest,
                 proto.SolicitationReply>(
@@ -140,7 +140,7 @@ public final class CreateRequestGrpc {
      */
     public void solicitation(proto.SolicitationRequest request,
         io.grpc.stub.StreamObserver<proto.SolicitationReply> responseObserver) {
-      asyncUnaryCall(
+      asyncServerStreamingCall(
           getChannel().newCall(getSolicitationMethodHelper(), getCallOptions()), request, responseObserver);
     }
   }
@@ -168,8 +168,9 @@ public final class CreateRequestGrpc {
      * Sends a greeting
      * </pre>
      */
-    public proto.SolicitationReply solicitation(proto.SolicitationRequest request) {
-      return blockingUnaryCall(
+    public java.util.Iterator<proto.SolicitationReply> solicitation(
+        proto.SolicitationRequest request) {
+      return blockingServerStreamingCall(
           getChannel(), getSolicitationMethodHelper(), getCallOptions(), request);
     }
   }
@@ -190,17 +191,6 @@ public final class CreateRequestGrpc {
     protected CreateRequestFutureStub build(io.grpc.Channel channel,
         io.grpc.CallOptions callOptions) {
       return new CreateRequestFutureStub(channel, callOptions);
-    }
-
-    /**
-     * <pre>
-     * Sends a greeting
-     * </pre>
-     */
-    public com.google.common.util.concurrent.ListenableFuture<proto.SolicitationReply> solicitation(
-        proto.SolicitationRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getSolicitationMethodHelper(), getCallOptions()), request);
     }
   }
 

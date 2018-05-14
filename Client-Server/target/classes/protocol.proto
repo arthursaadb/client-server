@@ -6,7 +6,7 @@ package proto;
 
 service CreateRequest {
     // Sends a greeting
-    rpc Solicitation (SolicitationRequest) returns (SolicitationReply) {}
+    rpc Solicitation (SolicitationRequest) returns (stream SolicitationReply);
 }
 
 // The request message containing the user's name.

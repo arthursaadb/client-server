@@ -1,13 +1,13 @@
 package server;
 
+import processamento.DadosCliente;
+import processamento.DadosResposta;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.math.BigInteger;
 import java.net.DatagramPacket;
-
-import processamento.DadosCliente;
-import processamento.DadosResposta;
 
 public class ThreadUpdate extends Thread {
     BigInteger key;

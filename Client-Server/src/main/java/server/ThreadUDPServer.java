@@ -15,7 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ThreadUDPServer extends Thread {
 	static LinkedBlockingQueue<DadosCliente> filaLog = new LinkedBlockingQueue<>();
 	static LinkedBlockingQueue<DadosCliente> filaProcessamento = new LinkedBlockingQueue<>();
-	static Map<BigInteger,List<DadosCliente>> mapRegistros = new ConcurrentHashMap<>();
+	public static Map<BigInteger,List<DadosCliente>> mapRegistros = new ConcurrentHashMap<>();
 	
 	@Override
 	public void run() {
@@ -88,6 +88,7 @@ public class ThreadUDPServer extends Thread {
 		//System.out.println(mensagem);
 		
 		if(mapRegistros.containsKey(chave)) {
+		    //System.out.println(mapRegistros);
 			List<DadosCliente> clientes = mapRegistros.get(chave);
 			for(int i=0; i<clientes.size(); i++) {
 				String envio = "Cliente na porta " + clientes.get(i).getPort() + " uma opera��o de " + crud + " ser� realizada na chave " + chave + " pelo cliente na porta " + dados.getPort();
@@ -154,18 +155,22 @@ public class ThreadUDPServer extends Thread {
 	public void ProcessLog(String crud, BigInteger key, String mensagem) {
 		DadosCliente dados = null;
 		if(crud.equals("CREATE")) {
+			System.out.println(mapRegistros);
 			new ThreadCreate(key,mensagem,dados).start();
 		}
 		
 		else if(crud.equals("UPDATE")) {
+            System.out.println(mapRegistros);
 			new ThreadUpdate(key,mensagem,dados).start();
 		}
 		
 		else if(crud.equals("DELETE")) {
+            System.out.println(mapRegistros);
 			new ThreadDelete(key,dados).start();
 		}
 		
 		else if(crud.equals("REGISTRO")) {
+            System.out.println(mapRegistros);
 			new ThreadRegistro(key,dados).start();
 		}
 	}
