@@ -155,25 +155,36 @@ public class ThreadUDPServer extends Thread {
 	public void ProcessLog(String crud, BigInteger key, String mensagem) {
 		DadosCliente dados = null;
 		if(crud.equals("CREATE")) {
-			System.out.println(mapRegistros);
 			new ThreadCreate(key,mensagem,dados).start();
 		}
 		
 		else if(crud.equals("UPDATE")) {
-            System.out.println(mapRegistros);
 			new ThreadUpdate(key,mensagem,dados).start();
 		}
 		
 		else if(crud.equals("DELETE")) {
-            System.out.println(mapRegistros);
 			new ThreadDelete(key,dados).start();
 		}
 		
 		else if(crud.equals("REGISTRO")) {
-            System.out.println(mapRegistros);
 			new ThreadRegistro(key,dados).start();
 		}
 	}
 
+	public static Integer verificaSnapshotAtual(File v1, File v2, File v3){
+		if ( v1.lastModified() > v2.lastModified()){
+			if(v1.lastModified() > v3.lastModified()){
+				return 1;
+			} else {
+				return 3;
+			}
+		}else {
+			if(v2.lastModified() > v3.lastModified()){
+				return 2;
+			} else {
+				return 3;
+			}
+		}
+	}
 
 }
